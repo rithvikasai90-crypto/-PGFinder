@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PGFinder - Find Your Perfect Stay</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-btn {
+            background: white;
+            color: #4f46e5 !important;
+            padding: 9px 18px;
+            border-radius: 8px;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 65px 20px 110px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        /* ================= SEARCH BOX ================= */
+
+        .search-container {
+            width: 92%;
+            max-width: 1150px;
+            margin: -55px auto 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+        }
+
+        .location-input {
+            padding: 17px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .search-btn {
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 17px 32px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #3730a3;
+        }
+
+        /* ================= FILTER AREA ================= */
+
+        .filter-box {
+            margin-top: 25px;
+            border-top: 1px solid #eee;
+            padding-top: 22px;
+        }
+
+        .filter-title {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .filter-group {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px;
+            background: #fafafa;
+        }
+
+        .filter-group h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: #374151;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 9px 0;
+            cursor: pointer;
+        }
+
+        .option input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* ================= PRICE ================= */
+
+        .price-inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .price-inputs input {
+            width: 50%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* ================= FILTER BUTTONS ================= */
+
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .apply-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .clear-btn {
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* ================= RESULTS ================= */
+
+        .results-section {
+            width: 92%;
+            max-width: 1250px;
+            margin: auto;
+            padding-bottom: 70px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .results-header h2 {
+            font-size: 28px;
+        }
+
+        .sort-box {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+
+        /* ================= PG CARDS ================= */
+
+        .pg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 25px;
+        }
+
+        .pg-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            transition: 0.25s;
+        }
+
+        .pg-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.13);
+        }
+
+        .pg-image {
+            height: 180px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 65px;
+        }
+
+        .pg-content {
+            padding: 20px;
+        }
+
+        .pg-name {
+            color: #4f46e5;
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .address {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 12px 0;
+        }
+
+        .tag {
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        .vacancy {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .few {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .full {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .amenities {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-top: 12px;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 17px;
+        }
+
+        .details-btn {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            background: #4f46e5;
+            color: white;
+            padding: 11px;
+            border-radius: 8px;
+        }
+
+        .map-btn {
+            text-decoration: none;
+            background: #16a34a;
+            color: white;
+            padding: 11px 15px;
+            border-radius: 8px;
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .empty-box {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .empty-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-box p {
+            color: #666;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 800px) {
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+        }
+
+        @media(max-width: 600px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .search-btn,
+            .apply-btn,
+            .clear-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🏠 PGFinder
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="#">
+            ❤️ Favourites
+        </a>
+
+        <a href="#">
+            Add Your PG
+        </a>
+
+        <a class="login-btn" href="#">
+            Login
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <h1>
+        Find Your Perfect PG 🌍
+    </h1>
+
+    <p>
+        Search PGs, hostels, co-living and student accommodation anywhere.
+    </p>
+
+</section>
+
+
+<!-- ================= SEARCH + FILTERS ================= -->
+
+<div class="search-container">
+
+    <form method="GET" action="/">
+
+        <!-- LOCATION -->
+
+        <div class="search-row">
+
+            <input
+                class="location-input"
+                type="text"
+                name="location"
+                value="{{ location }}"
+                placeholder="🌍 Enter city or area — Guntur, Hyderabad, Dubai..."
+                required
+            >
+
+            <button
+                class="search-btn"
+                type="submit"
+            >
+                🔍 Search
+            </button>
+
+        </div>
+
+
+        <!-- FILTERS -->
+
+        <div class="filter-box">
+
+            <div class="filter-title">
+                🔎 Filter your accommodation
+            </div>
+
+
+            <div class="filter-grid">
+
+
+                <!-- GENDER -->
+
+                <div class="filter-group">
+
+                    <h3>
+                        👤 Gender
+                    </h3>
+
+                    <label class="option">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value=""
+                            checked
+                        >
+                        All
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="boys"
+                        >
+                        👨 Boys
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="girls"
+                        >
+                        👩 Girls
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="coliving"
+                        >
+                        👫 Co-living
+                    </label>
+
+                </div>
+
+
+                <!-- ACCOMMODATION TYPE -->
+
+                <div class="filter-group">
+
+                    <h3>
+                        🏠 Accommodation Type
+                    </h3>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="type"
+                            value="pg"
+                        >
+                        PG
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="type"
+                            value="hostel"
+                        >
+                        🏨 Hostel
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="type"
+                            value="student"
+                        >
+                        🎓 Student Accommodation
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="type"
+                            value="coliving"
+                        >
+                        👫 Co-living
+                    </label>
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="filter-group">
+
+                    <h3>
+                        💰 Monthly Rent
+                    </h3>
+
+                    <div class="price-inputs">
+
+                        <input
+                            type="number"
+                            name="min_price"
+                            placeholder="Min ₹"
+                            min="0"
+                        >
+
+                        <input
+                            type="number"
+                            name="max_price"
+                            placeholder="Max ₹"
+                            min="0"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- ROOM -->
+
+                <div class="filter-group">
+
+                    <h3>
+                        🛏️ Room Type
+                    </h3>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="room"
+                            value="single"
+                        >
+                        Single
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="room"
+                            value="2sharing"
+                        >
+                        2 Sharing
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="room"
+                            value="3sharing"
+                        >
+                        3 Sharing
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="room"
+                            value="4sharing"
+                        >
+                        4 Sharing
+                    </label>
+
+                </div>
+
+
+                <!-- FACILITIES -->
+
+                <div class="filter-group">
+
+                    <h3>
+                        ⭐ Facilities
+                    </h3>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="amenity"
+                            value="food"
+                        >
+                        🍱 Food
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="amenity"
+                            value="wifi"
+                        >
+                        📶 Wi-Fi
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="amenity"
+                            value="ac"
+                        >
+                        ❄️ AC
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="amenity"
+                            value="laundry"
+                        >
+                        🧺 Laundry
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="amenity"
+                            value="parking"
+                        >
+                        🅿️ Parking
+                    </label>
+
+                </div>
+
+
+                <!-- VACANCY -->
+
+                <div class="filter-group">
+
+                    <h3>
+                        🟢 Availability
+                    </h3>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="availability"
+                            value="available"
+                        >
+                        🟢 Available Now
+                    </label>
+
+                    <label class="option">
+                        <input
+                            type="checkbox"
+                            name="availability"
+                            value="few"
+                        >
+                        🟡 Few Beds Left
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="filter-buttons">
+
+                <button
+                    class="apply-btn"
+                    type="submit"
+                >
+                    🔎 Apply Filters
+                </button>
+
+                <button
+                    class="clear-btn"
+                    type="button"
+                    onclick="window.location.href='/'"
+                >
+                    ✕ Clear Filters
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ================= RESULTS ================= -->
+
+<section class="results-section">
+
+    {% if searched %}
+
+        <div class="results-header">
+
+            <div>
+
+                <h2>
+                    PGs & Accommodation in {{ location }}
+                </h2>
+
+                <p style="color:#666; margin-top:6px;">
+                    Found {{ pgs|length }} results
+                </p>
+
+            </div>
+
+
+            <select
+                class="sort-box"
+                name="sort"
+            >
+
+                <option value="recommended">
+                    Recommended
+                </option>
+
+                <option value="price_low">
+                    Price: Low → High
+                </option>
+
+                <option value="price_high">
+                    Price: High → Low
+                </option>
+
+                <option value="rating">
+                    Highest Rated
+                </option>
+
+                <option value="vacancy">
+                    Most Vacancies
+                </option>
+
+            </select>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="empty-box">
+
+                <h2>
+                    ⚠️ Something went wrong
+                </h2>
+
+                <p>
+                    {{ error }}
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+        {% if pgs %}
+
+            <div class="pg-grid">
+
+                {% for pg in pgs %}
+
+                    <div class="pg-card">
+
+                        <div class="pg-image">
+                            🏠
+                        </div>
+
+
+                        <div class="pg-content">
+
+                            <h3 class="pg-name">
+                                {{ pg.name }}
+                            </h3>
+
+
+                            <p class="address">
+                                📍 {{ pg.address }}
+                            </p>
+
+
+                            {% if pg.rating %}
+
+                                <p>
+                                    ⭐
+                                    {{ pg.rating }}
+
+                                    {% if pg.rating_count %}
+                                        ({{ pg.rating_count }} reviews)
+                                    {% endif %}
+                                </p>
+
+                            {% endif %}
+
+
+                            <div class="tags">
+
+                                {% if pg.gender %}
+                                    <span class="tag">
+                                        {{ pg.gender }}
+                                    </span>
+                                {% endif %}
+
+                                {% if pg.accommodation_type %}
+                                    <span class="tag">
+                                        {{ pg.accommodation_type }}
+                                    </span>
+                                {% endif %}
+
+                                {% if pg.room_type %}
+                                    <span class="tag">
+                                        {{ pg.room_type }}
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if pg.rent %}
+
+                                <div class="price">
+                                    ₹{{ pg.rent }}/month
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if pg.vacancy is defined %}
+
+                                {% if pg.vacancy > 4 %}
+
+                                    <span class="vacancy available">
+                                        🟢 {{ pg.vacancy }} beds available
+                                    </span>
+
+                                {% elif pg.vacancy > 0 %}
+
+                                    <span class="vacancy few">
+                                        🟡 {{ pg.vacancy }} beds left
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="vacancy full">
+                                        🔴 Currently Full
+                                    </span>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                <span class="vacancy few">
+                                    ❓ Availability unknown
+                                </span>
+
+                            {% endif %}
+
+
+                            <div class="amenities">
+
+                                {% if pg.food %}
+                                    🍱 Food
+                                {% endif %}
+
+                                {% if pg.wifi %}
+                                    📶 Wi-Fi
+                                {% endif %}
+
+                                {% if pg.ac %}
+                                    ❄️ AC
+                                {% endif %}
+
+                                {% if pg.laundry %}
+                                    🧺 Laundry
+                                {% endif %}
+
+                                {% if pg.parking %}
+                                    🅿️ Parking
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="card-buttons">
+
+                                <a
+                                    class="details-btn"
+                                    href="/place/{{ pg.id }}"
+                                >
+                                    View Details
+                                </a>
+
+
+                                {% if pg.maps_url %}
+
+                                    <a
+                                        class="map-btn"
+                                        href="{{ pg.maps_url }}"
+                                        target="_blank"
+                                    >
+                                        📍 Map
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-box">
+
+                <h2>
+                    🏠 No PGs found
+                </h2>
+
+                <p>
+                    Try another location or change your filters.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+    {% else %}
+
+        <div class="empty-box">
+
+            <h2>
+                🌍 Find accommodation anywhere
+            </h2>
+
+            <p>
+                Search for a city or area to find PGs, hostels,
+                co-living spaces and student accommodation.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        🏠 PGFinder © 2026
+    </p>
+
+    <p style="margin-top:8px;">
+        Find PGs • Hostels • Co-living • Student Accommodation
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
